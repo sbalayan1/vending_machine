@@ -11,36 +11,36 @@ prompt = TTY::Prompt.new
 current_user = nil
 login = nil
 change = nil
+till_total = Till.all.map {|t| t.value * t.quantity}.sum
+till_coins = Till.all.map {|t| t}
+
 
 # login
+    menu_selections = ['Login', 'New User', 'Exit']
+    login = prompt.select("Hello! Please sign in.", menu_selections)
+
     while current_user == nil && User.all.find_by(name: current_user) == nil && login != 'Exit' do
-        if current_user == nil 
-            menu_selections = ['Login', 'New User', 'Exit']
+        login == 'Login' ? user = prompt.ask('Please enter your username', required: true) : nil
 
-            login = prompt.select("Hello! Please sign in.", menu_selections)
-            login == 'Login' ? user = prompt.ask('Please enter your username', required: true) : nil
+        if login == 'New User'
+            new_user = prompt.ask('Please enter a unique username', required: true)
 
-
-            if login == 'New User'
-                    new_user = prompt.ask('Please enter a unique username', required: true)
-
-                    # if there is an input and the input is not a duplicate, create the new user
-                    while User.all.find_by(name: new_user) != nil do
-                        puts 'Hmmm seems like that name already exists.'
-                        new_user = prompt.ask('Please enter a unique username', required: true)
-                    end 
-
-                    if new_user && User.all.find_by(name: new_user) == nil
-                        User.create(name: new_user)
-                        user = new_user
-                    end
-            end
-            
-            if User.all.find_by(name: user)
-                current_user = user
-            else
-                login = prompt.select("Hmm that user doesn't exist. Please try again or create a new user.", menu_selections)
+            # if there is an input and the input is not a duplicate, create the new user
+            while User.all.find_by(name: new_user) != nil do
+                puts 'Hmmm seems like that name already exists.'
+                new_user = prompt.ask('Please enter a unique username', required: true)
             end 
+
+            if new_user && User.all.find_by(name: new_user) == nil
+                User.create(name: new_user)
+                user = User.all.find_by(name: new_user).name
+            end
+        end
+        
+        if User.all.find_by(name: user)
+            current_user = User.all.find_by(name: user)
+        elsif login != 'Exit' && User.all.find_by(name: user) == nil
+            login = prompt.select("Hmm that user doesn't exist. Please try again or create a new user.", menu_selections)
         end 
     end
 
@@ -53,27 +53,64 @@ change = nil
 
         while drink_menu == nil && drink_menu != 'Exit' do
             
-            drink_menu = prompt.select("Hello #{current_user}! Thank you for choosing SeekingAlpha Soda. Please select an option below.", drinks, 'Exit', required: true)
+            drink_menu = prompt.select("Hello #{current_user.name}! Thank you for choosing SeekingAlpha Soda. Please select an option below.", drinks, 'Exit', required: true)
 
-            drink = Drink.all.find_by(name: drink_menu)
+            drink = Drink.all.find_by(name: drink_menu)      
+        end
 
+        while drink do
             if drink.quantity <= 0
                 drinks = drinks.select {|drink| drink != drink_menu}
 
-                drink_menu = prompt.select("Unfortunately we're sold out of #{drink.name}. Please select another option below.", drinks, required: true)
+                drink_menu = prompt.select("Unfortunately we're sold out of #{drink.name}. Please select another option below.", drinks, 'Exit', required: true)
 
                 drink = Drink.all.find_by(name: drink_menu)
-            end       
+            else 
+                break
+            end 
+        end 
+
+        if drink_menu != 'Exit'
+            payment = prompt.ask("#{drink.name} sounds great! That will be $#{drink.price}. Please enter your desired payment amount!", required: true).to_f
         end
 
-        payment = prompt.ask("#{drink.name} sounds great! That will be $#{drink.price}. Please enter your desired payment amount!", required: true).to_f
+        def make_change (amount, coins)
+            if coins[0].value > coins[coins.length-1].value
+                coins = coins.reverse()
+            end 
+
+            answer = []
+            i = coins.length - 1
+            j = 0
+
+            while i>=0 do
+                while amount >= coins[i].value do
+                    if coins[i].quantity == 0
+                        next
+                    else
+                        coins[i].quantity -= 1
+                        coins[i].save
+                        answer.push(coins[i].value)
+                        amount -= coins[i].value
+                    end
+                end 
+
+                i-=1
+            end 
+
+            while j < answer.length do
+                puts answer[j]
+                j += 1
+            end 
+        end 
 
         while payment do
-            puts Till.all.map {|t| t.value}
-            if payment > 0 && payment >= drink.price
+            change = payment - drink.price
+            if payment > 0 && payment >= drink.price && change <= till_total
+                make_change(change, till_coins)
                 drink.quantity -= 1
                 drink.save
-                change = payment - drink.price
+                Purchase.create(drink_id: drink.id, user_id: current_user.id, total: drink.price)
                 puts "Thank you for your purchase! Here is your #{drink.name} and your change of $#{change}0!"
                 payment = nil
             else 
