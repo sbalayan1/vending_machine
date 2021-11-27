@@ -71,7 +71,8 @@ change = nil
         while payment do
             puts Till.all.map {|t| t.value}
             if payment > 0 && payment >= drink.price
-                Drink.select {}
+                drink.quantity -= 1
+                drink.save
                 change = payment - drink.price
                 puts "Thank you for your purchase! Here is your #{drink.name} and your change of $#{change}0!"
                 payment = nil
