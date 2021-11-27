@@ -69,8 +69,9 @@ change = nil
         payment = prompt.ask("#{drink.name} sounds great! That will be $#{drink.price}. Please enter your desired payment amount!", required: true).to_f
 
         while payment do
-            if payment > 0
-                puts drink.quantity
+            puts Till.all.map {|t| t.value}
+            if payment > 0 && payment >= drink.price
+                Drink.select {}
                 change = payment - drink.price
                 puts "Thank you for your purchase! Here is your #{drink.name} and your change of $#{change}0!"
                 payment = nil
