@@ -3,8 +3,6 @@ require "artii"
 require "colorize"
 
 arter = Artii::Base.new
-
-
 puts arter.asciify("SeekingAlpha Soda").red
 
 prompt = TTY::Prompt.new
@@ -134,7 +132,7 @@ wallet_coins = [5, 3, 2, 1, 0.5, 0.25]
                 puts "Thank you for your purchase! Here is your #{drink.name} and your change of $#{change}0!"
                 payment = nil
             else 
-                payment = prompt.ask("Hmmm seems like you entered in the incorrect amount! That will be $#{drink.price}. Please enter your desired payment amount!", required: true).to_f
+                payment = prompt.select("Hmmm seems like you entered in the incorrect amount! That will be $#{drink.price}. Please enter your desired payment amount!", wallet_coins, required: true).to_f
             end   
         end 
     end
