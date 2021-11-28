@@ -12,7 +12,6 @@
 
 4. If you would like a quick way to view the Till without going through the CLI, run rake console then Till.all in your terminal. This should open up a console where you can view the Till table. The changes after a purchase is made should be reflected here. After you are finished reviewing, type exit to leave the console.
 
-
 **Core Features:**
     - Login/Sign Up
     - View drink menu
