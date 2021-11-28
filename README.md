@@ -77,6 +77,7 @@ ___________________________________
 _____________________________________
 
 **Bugs:**
+    
     - when certain coins run out in the till, the application stops -> fixed
     - currently when the user selects a payment, the user is only able to select one payment rather than multiple -> fixed
     - user cannot select the same bill twice when making a purchase
