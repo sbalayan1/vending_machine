@@ -4,7 +4,6 @@ require "colorize"
 
 arter = Artii::Base.new
 puts arter.asciify("SeekingAlpha Soda").red
-
 prompt = TTY::Prompt.new
 current_user = nil
 login = nil
@@ -12,7 +11,6 @@ change = nil
 till_total = Till.all.map {|t| t.value * t.quantity}.sum
 till_coins = Till.all.map {|t| t}
 wallet_coins = [5, 3, 2, 1, 0.5, 0.25]
-
 
 # login
     menu_selections = ['Login', 'New User', 'Exit']
@@ -87,36 +85,6 @@ wallet_coins = [5, 3, 2, 1, 0.5, 0.25]
             payment = prompt.select("#{drink.name} sounds great! That will be $#{drink.price}. Please enter your desired payment amount!", wallet_coins, required: true).to_f
         end
 
-        def make_change (amount, coins)
-            if coins[0].value > coins[coins.length-1].value
-                coins = coins.reverse()
-            end 
-
-            answer = []
-            i = coins.length - 1
-            j = 0
-
-            while i>=0 do
-                while amount >= coins[i].value do
-                    if coins[i].quantity == 0
-                        break
-                    else
-                        coins[i].quantity -= 1
-                        coins[i].save
-                        answer.push(coins[i].value)
-                        amount -= coins[i].value
-                    end
-                end 
-
-                i-=1
-            end 
-
-            while j < answer.length do
-                puts answer[j]
-                j += 1
-            end 
-        end 
-
         while payment do
             change = payment - drink.price
             if payment > 0 && payment >= drink.price && change <= till_total
@@ -124,11 +92,12 @@ wallet_coins = [5, 3, 2, 1, 0.5, 0.25]
                 update_till.quantity += 1
                 update_till.save
 
-                make_change(change, till_coins)
+                new_purchase = Purchase.create(drink_id: drink.id, user_id: current_user.id, total: drink.price)
+                new_purchase.make_change(change, till_coins)
+
                 drink.quantity -= 1
                 drink.save
 
-                Purchase.create(drink_id: drink.id, user_id: current_user.id, total: drink.price)
                 puts "Thank you for your purchase! Here is your #{drink.name} and your change of $#{change}0!"
                 payment = nil
             else 

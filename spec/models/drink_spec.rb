@@ -9,7 +9,7 @@ RSpec.describe Drink, type: :model do
       end
     end
   
-    describe '#quantity' do
+    describe '#quantity' do 
       it 'returns drink quantity' do
         expect(drink.quantity).to eq(10)
       end

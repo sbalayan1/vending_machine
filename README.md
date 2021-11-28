@@ -1,7 +1,8 @@
 **About:** This is a Vending Machine CLI application using only Ruby. 
 
 **Instructions:**
-1. In your terminal, run the following commands to create and seed the database
+1. In your terminal, run the following commands first to setup, create and seed the database
+ - bundle install
  - rake db:migrate
  - rake db:seed
 4. In your terminal, run the following commands to start and exit the application 
@@ -62,3 +63,4 @@
     - When certain coins run out in the till, the application stops -> fixed
     - currently when the user selects a payment, the user is only able to select one payment rather than multiple
     - there is no data table to keep track of the users 'wallet'
+    - want to figure out a way to test the make_change function in the purchase model
