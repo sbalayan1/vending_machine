@@ -99,7 +99,7 @@ wallet_coins = [5, 3, 2, 1, 0.5, 0.25]
             while i>=0 do
                 while amount >= coins[i].value do
                     if coins[i].quantity == 0
-                        next
+                        break
                     else
                         coins[i].quantity -= 1
                         coins[i].save
