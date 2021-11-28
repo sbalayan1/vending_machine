@@ -10,15 +10,19 @@
  - Start: ruby bin/run.rb 
  - Exit: ctrl + c (note you will have to use this to exit the application if at any point you get stuck and there is no exit selection)
 
-4. If you would like a quick way to view the Till without going through the CLI, run rake console then Till.all in your terminal. This should open up a console where you can view the Till table. The changes after a purchase is made should be reflected here. After you are finished reviewing, type exit to leave the console.
+4. If you would like a quick way to view the Till without going through the CLI, 
+- run rake console then Till.all in your terminal. 
+- This should open up a console where you can view the Till table. 
+- The changes after a purchase is made should be reflected here. 
+- After you are finished reviewing, type exit to leave the console.
 
 **Core Features:**
-    - Login/Sign Up
-    - View drink menu
-    - View coins in till
-    - Purchase drink by selecting payment
-    - Error handling when the drink is out of stock or there is not enough change in the till
-    - Exit at multiple points within the application
+- Login/Sign Up
+- View drink menu
+- View coins in till
+- Purchase drink by selecting payment
+- Error handling when the drink is out of stock or there is not enough change in the till
+- Exit at multiple points within the application
     
 **Relationships:**
 
