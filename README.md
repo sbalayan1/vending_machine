@@ -5,9 +5,11 @@
  - bundle install
  - rake db:migrate
  - rake db:seed
-4. In your terminal, run the following commands to start and exit the application 
+2. In your terminal, run rspec to test that the models were created properly. 
+3. In your terminal, run the following commands to start and exit the application 
  - Start: ruby bin/run.rb 
  - Exit: ctrl + c (note you will have to use this to exit the application if at any point you get stuck and there is no exit selection)
+
 
 **Core Features:**
     - Login/Sign Up
