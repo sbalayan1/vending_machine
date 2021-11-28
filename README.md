@@ -1,20 +1,21 @@
 **About:** This is a Vending Machine CLI application using only Ruby. 
 
 **Instructions:**
-1. In your terminal, run the following commands first to setup, create and seed the database
+**1. In your terminal, run the following commands first to setup, create and seed the database**
  - bundle install
  - rake db:migrate
  - rake db:seed
-2. In your terminal, run rspec to test that the models were created properly. 
-3. In your terminal, run the following commands to start and exit the application 
+
+**2. In your terminal, run the following commands to start and exit the application**
  - Start: ruby bin/run.rb 
  - Exit: ctrl + c (note you will have to use this to exit the application if at any point you get stuck and there is no exit selection)
 
-4. If you would like a quick way to view the Till without going through the CLI, 
-- run rake console then Till.all in your terminal. 
+**3. If you would like a quick way to view the Till without going through the CLI, run rake console then Till.all in your terminal.**
 - This should open up a console where you can view the Till table. 
 - The changes after a purchase is made should be reflected here. 
 - After you are finished reviewing, type exit to leave the console.
+
+**4. In your terminal, run rspec to test that the models were created properly.**
 
 **Core Features:**
 - Login/Sign Up
