@@ -46,9 +46,9 @@ wallet_coins = [5, 3, 2, 1, 0.5, 0.25]
         drink_menu = nil
         drink = nil
         payment = nil
-
         hash = {}
         i = 0
+        
         while i<drinks.length do 
             hash["-> #{drinks[i].name}: $#{drinks[i].price}"] = drinks[i].name
             i+=1
@@ -82,15 +82,23 @@ wallet_coins = [5, 3, 2, 1, 0.5, 0.25]
         end 
 
         if drink_menu != 'Exit' && drink_menu != 'Till'
-            payment = prompt.select("#{drink.name} sounds great! That will be $#{drink.price}. Please enter your desired payment amount!", wallet_coins, required: true).to_f
+            payment = prompt.multi_select("#{drink.name} sounds great! That will be $#{drink.price}. Please enter your desired payment amount! Note you can press SPACE to select multiple payments.", wallet_coins, required: true)
+
+            total_paid = payment.sum().to_f
         end
 
         while payment do
-            change = payment - drink.price
-            if payment > 0 && payment >= drink.price && change <= till_total
-                update_till = Till.all.find_by(value: payment)
-                update_till.quantity += 1
-                update_till.save
+            change = total_paid - drink.price
+            if total_paid > 0 && total_paid >= drink.price && change <= till_total && change % 0.25 === 0
+                
+                i = 0
+                while i<payment.length do
+                    update_till = Till.all.find_by(value: payment[i])
+                    update_till.quantity += 1
+                    update_till.save
+
+                    i += 1
+                end 
 
                 new_purchase = Purchase.create(drink_id: drink.id, user_id: current_user.id, total: drink.price)
                 new_purchase.make_change(change, till_coins)
@@ -101,7 +109,9 @@ wallet_coins = [5, 3, 2, 1, 0.5, 0.25]
                 puts "Thank you for your purchase! Here is your #{drink.name} and your change of $#{change}0!"
                 payment = nil
             else 
-                payment = prompt.select("Hmmm seems like you entered in the incorrect amount! That will be $#{drink.price}. Please enter your desired payment amount!", wallet_coins, required: true).to_f
+                payment = prompt.multi_select("Hmmm seems like you entered in the incorrect amount or there isn't enough change! That will be $#{drink.price}. Please enter your desired payment amount! Note you can press SPACE to select multiple payments.", wallet_coins, required: true)
+
+                total_paid = payment.sum().to_f
             end   
         end 
     end
