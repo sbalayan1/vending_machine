@@ -59,4 +59,4 @@
 
 **Bugs:**
 
-    - When certain coins run out in the till, the application stops
+    - When certain coins run out in the till, the application stops -> fixed
