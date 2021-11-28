@@ -50,4 +50,13 @@
         o	Value -> float
         o	Quantity -> integer
 
-**Notes:**
+**Other Key Features:**
+
+    - Prompt looping when invalid sign-in or selections are made or the soda is out of stock
+    - Till updates to reflect BOTH received payment and any change dispensed
+    - Least amount of coins used when change is dispensed
+    - Drink menu updates to reflect when a drink is sold out
+
+**Bugs:**
+
+    - When certain coins run out in the till, the application stops
