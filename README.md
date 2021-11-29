@@ -50,4 +50,4 @@
         o	Value -> float
         o	Quantity -> integer
 
-**Notes: **
+**Notes:**
