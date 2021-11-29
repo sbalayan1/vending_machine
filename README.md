@@ -8,7 +8,7 @@
         -> Start: ruby bin/run.rb 
         -> Exit: ctrl + c (note you will have to use this to exit the application if at any point you get stuck and there is no exit selection)
 
-**Core Features: **
+**Core Features:**
     -> Login/Sign Up
     -> View drink menu
     -> View coins in till
@@ -16,7 +16,7 @@
     -> Error handling when the drink is out of stock or there is not enough change in the till
     -> Exit at multiple points within the application
     
-**Relationships: **
+**Relationships:**
     User has many purchases
 	User has many drinks through purchases
 
