@@ -1,6 +1,6 @@
-About: This is a Vending Machine CLI application using only Ruby. 
-
-Instructions:
+**About:** This is a Vending Machine CLI application using only Ruby. 
+**
+Instructions:**
     1. In your terminal, run the following commands to create and seed the database
         -> rake db:migrate
         -> rake db:seed
@@ -8,15 +8,15 @@ Instructions:
         -> Start: ruby bin/run.rb 
         -> Exit: ctrl + c (note you will have to use this to exit the application if at any point you get stuck and there is no exit selection)
 
-Core Features: 
+**Core Features: **
     -> Login/Sign Up
     -> View drink menu
     -> View coins in till
     -> Purchase drink by selecting payment
     -> Error handling when the drink is out of stock or there is not enough change in the till
     -> Exit at multiple points within the application
-
-Relationships: 
+**
+Relationships: **
     User has many purchases
 	User has many drinks through purchases
 
@@ -27,7 +27,7 @@ Relationships:
 	Drink has many users through purchases 
 
 
-Table Information: 
+**Table Information: **
     -	User
         o	ID
         o	Name -> string
@@ -48,4 +48,4 @@ Table Information:
         o	Value -> float
         o	Quantity -> integer
 
-Notes: 
+**Notes: **
