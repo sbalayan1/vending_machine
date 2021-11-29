@@ -17,7 +17,7 @@
     - Exit at multiple points within the application
     
 **Relationships:**
-    User has many purchases
+	User has many purchases
 	User has many drinks through purchases
 
 	Purchases belong to user
@@ -27,7 +27,7 @@
 	Drink has many users through purchases 
 
 
-**Table Information: **
+**Table Information:**
     -	User
         o	ID
         o	Name -> string
