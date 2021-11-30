@@ -1,4 +1,5 @@
 **About:** This is a Vending Machine CLI application using only Ruby. 
+______________________________________
 
 **Instructions:**
 **1. In your terminal, run the following commands first to setup, create and seed the database**
@@ -16,6 +17,7 @@
 - After you are finished reviewing, type exit to leave the console.
 
 **4. In your terminal, run rspec to test that the models were created properly.**
+_____________________________________
 
 **Core Features:**
 - Login/Sign Up
@@ -24,6 +26,7 @@
 - Purchase drink by selecting payment
 - Error handling when the drink is out of stock or there is not enough change in the till
 - Exit at multiple points within the application
+______________________________________
     
 **Relationships:**
 
@@ -35,6 +38,7 @@
 
 	Drink has many purchases
 	Drink has many users through purchases 
+______________________________________
 
 
 **Table Information:**
@@ -58,6 +62,7 @@
         o	ID
         o	Value -> float
         o	Quantity -> integer
+___________________________________
 
 **Other Key Features:**
 
@@ -65,6 +70,7 @@
     - Till updates to reflect BOTH received payment and any change dispensed
     - Least amount of coins used when change is dispensed
     - Drink menu updates to reflect when a drink is sold out
+_____________________________________
 
 **Bugs:**
 
