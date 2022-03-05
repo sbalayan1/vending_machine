@@ -47,12 +47,10 @@ wallet_coins = [5, 3, 2, 1, 0.5, 0.25]
         drink = nil
         payment = nil
         hash = {}
-        i = 0
         
-        while i<drinks.length do 
-            hash["-> #{drinks[i].name}: $#{drinks[i].price}"] = drinks[i].name
-            i+=1
-        end
+        drinks.each do |drink|
+            hash["-> #{drink.name}: $#{drink.price}"] = drink.name
+        end 
 
         while drink_menu == nil && drink_menu != 'Exit' do
             
@@ -90,14 +88,10 @@ wallet_coins = [5, 3, 2, 1, 0.5, 0.25]
         while payment do
             change = total_paid - drink.price
             if total_paid > 0 && total_paid >= drink.price && change <= till_total && change % 0.25 === 0
-                
-                i = 0
-                while i<payment.length do
-                    update_till = Till.all.find_by(value: payment[i])
+                update_till = Till.all.find_by(value: p)
+                payment.each do |p|
                     update_till.quantity += 1
                     update_till.save
-
-                    i += 1
                 end 
 
                 new_purchase = Purchase.create(drink_id: drink.id, user_id: current_user.id, total: drink.price)
