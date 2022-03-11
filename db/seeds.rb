@@ -14,6 +14,8 @@ Drink.create(name: 'Fanta', price: 2.70, quantity: 3)
 Drink.create(name: 'Orange Juice', price: 3.00, quantity: 1)
 Drink.create(name: 'Water', price: 3.25, quantity: 0)
 
+
+
 puts "seed till"
 Till.create(value: 5.00, quantity: 5)
 Till.create(value: 3.00, quantity: 5)
