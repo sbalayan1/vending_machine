@@ -41,15 +41,7 @@ describe './apps/vending_machine.rb' do
             it 'takes a drink name as an argument and returns the drinks price' do
                 vm = VendingMachine.new
                 drink = 'Pepsi'
-                expect(vm.get_drink_price(drink)).to be_an(Float)
                 expect(vm.get_drink_price(drink)).to eq(1.25)
-
-                # drink = pepsi
-                # expect(vm.get_drink_price(drink)).to be_an(Float)
-                # expect(vm.get_drink_price(drink)).to eq(1.25)
-
-                # drink = 1
-                # expect(vm.get_drink_price(drink)).to raise_error(ArgumentError)
             end 
         end 
     end
