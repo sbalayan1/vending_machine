@@ -1,113 +1,115 @@
 require_relative '../config/environment'
-require "artii"
-require "colorize"
+Drink.new.drink_menu
 
-arter = Artii::Base.new
-puts arter.asciify("SeekingAlpha Soda").red
-prompt = TTY::Prompt.new
-current_user = nil
-login = nil
-change = nil
-till_total = Till.all.map {|t| t.value * t.quantity}.sum
-till_coins = Till.all.map {|t| t}
-wallet_coins = [5, 3, 2, 1, 0.5, 0.25]
+# require "artii"
+# require "colorize"
 
-# login
-    menu_selections = ['Login', 'New User', 'Exit']
-    login = prompt.select("Hello! Please sign in.", menu_selections)
+# arter = Artii::Base.new
+# puts arter.asciify("SeekingAlpha Soda").red
+# prompt = TTY::Prompt.new
+# current_user = nil
+# login = nil
+# change = nil
+# till_total = Till.all.map {|t| t.value * t.quantity}.sum
+# till_coins = Till.all.map {|t| t}
+# wallet_coins = [5, 3, 2, 1, 0.5, 0.25]
 
-    while current_user == nil && User.all.find_by(name: current_user) == nil && login != 'Exit' do
-        login == 'Login' ? user = prompt.ask('Please enter your username', required: true) : nil
+# # login
+#     menu_selections = ['Login', 'New User', 'Exit']
+#     login = prompt.select("Hello! Please sign in.", menu_selections)
 
-        if login == 'New User'
-            new_user = prompt.ask('Please enter a unique username', required: true)
+#     while current_user == nil && User.all.find_by(name: current_user) == nil && login != 'Exit' do
+#         login == 'Login' ? user = prompt.ask('Please enter your username', required: true) : nil
 
-            while User.all.find_by(name: new_user) != nil do
-                puts 'Hmmm seems like that name already exists.'
-                new_user = prompt.ask('Please enter a unique username', required: true)
-            end 
+#         if login == 'New User'
+#             new_user = prompt.ask('Please enter a unique username', required: true)
 
-            if new_user && User.all.find_by(name: new_user) == nil
-                User.create(name: new_user)
-                user = User.all.find_by(name: new_user).name
-            end
-        end
+#             while User.all.find_by(name: new_user) != nil do
+#                 puts 'Hmmm seems like that name already exists.'
+#                 new_user = prompt.ask('Please enter a unique username', required: true)
+#             end 
+
+#             if new_user && User.all.find_by(name: new_user) == nil
+#                 User.create(name: new_user)
+#                 user = User.all.find_by(name: new_user).name
+#             end
+#         end
         
-        if User.all.find_by(name: user)
-            current_user = User.all.find_by(name: user)
-        elsif login != 'Exit' && User.all.find_by(name: user) == nil
-            login = prompt.select("Hmm that user doesn't exist. Please try again or create a new user.", menu_selections)
-        end 
-    end
+#         if User.all.find_by(name: user)
+#             current_user = User.all.find_by(name: user)
+#         elsif login != 'Exit' && User.all.find_by(name: user) == nil
+#             login = prompt.select("Hmm that user doesn't exist. Please try again or create a new user.", menu_selections)
+#         end 
+#     end
 
-#drink menu
-    if current_user != nil
-        drinks = Drink.all.map {|drink| drink}
-        drink_menu = nil
-        drink = nil
-        payment = nil
-        hash = {}
+# #drink menu
+#     if current_user != nil
+#         drinks = Drink.all.map {|drink| drink}
+#         drink_menu = nil
+#         drink = nil
+#         payment = nil
+#         hash = {}
         
-        drinks.each do |drink|
-            hash["-> #{drink.name}: $#{drink.price}"] = drink.name
-        end 
+#         drinks.each do |drink|
+#             hash["-> #{drink.name}: $#{drink.price}"] = drink.name
+#         end 
 
-        while drink_menu == nil && drink_menu != 'Exit' do
+#         while drink_menu == nil && drink_menu != 'Exit' do
             
-            drink_menu = prompt.select("Hello #{current_user.name}! Thank you for choosing SeekingAlpha Soda. Please select an option below.", hash.keys, 'Till', 'Exit', required: true)
+#             drink_menu = prompt.select("Hello #{current_user.name}! Thank you for choosing SeekingAlpha Soda. Please select an option below.", hash.keys, 'Till', 'Exit', required: true)
 
-            drink = Drink.all.find_by(name: hash[drink_menu])      
-        end
+#             drink = Drink.all.find_by(name: hash[drink_menu])      
+#         end
    
-        while drink_menu === 'Till' do 
-            puts Till.all.map {|coin| "Value: $#{coin.value} Quantity: #{coin.quantity}"}
+#         while drink_menu === 'Till' do 
+#             puts Till.all.map {|coin| "Value: $#{coin.value} Quantity: #{coin.quantity}"}
 
-            drink_menu = prompt.select("Hello #{current_user.name}! Thank you for choosing SeekingAlpha Soda. Please select an option below.", hash.keys, 'Till', 'Exit', required: true)
+#             drink_menu = prompt.select("Hello #{current_user.name}! Thank you for choosing SeekingAlpha Soda. Please select an option below.", hash.keys, 'Till', 'Exit', required: true)
 
-            drink = Drink.all.find_by(name: hash[drink_menu])  
-        end
+#             drink = Drink.all.find_by(name: hash[drink_menu])  
+#         end
 
-        while drink do
-            if drink.quantity <= 0
-                hash = hash.select {|drink| drink != drink_menu}
+#         while drink do
+#             if drink.quantity <= 0
+#                 hash = hash.select {|drink| drink != drink_menu}
 
-                drink_menu = prompt.select("Unfortunately we're sold out of #{drink.name}. Please select another option below.", hash.keys, 'Exit', required: true)
+#                 drink_menu = prompt.select("Unfortunately we're sold out of #{drink.name}. Please select another option below.", hash.keys, 'Exit', required: true)
 
-                drink = Drink.all.find_by(name: hash[drink_menu])
-            else 
-                break
-            end 
-        end 
+#                 drink = Drink.all.find_by(name: hash[drink_menu])
+#             else 
+#                 break
+#             end 
+#         end 
 
-        if drink_menu != 'Exit' && drink_menu != 'Till'
-            payment = prompt.multi_select("#{drink.name} sounds great! That will be $#{drink.price}. Please enter your desired payment amount! Note you can press SPACE to select multiple payments.", wallet_coins, required: true)
+#         if drink_menu != 'Exit' && drink_menu != 'Till'
+#             payment = prompt.multi_select("#{drink.name} sounds great! That will be $#{drink.price}. Please enter your desired payment amount! Note you can press SPACE to select multiple payments.", wallet_coins, required: true)
 
-            total_paid = payment.sum().to_f
-        end
+#             total_paid = payment.sum().to_f
+#         end
 
-        while payment do
-            change = total_paid - drink.price
-            if total_paid > 0 && total_paid >= drink.price && change <= till_total && change % 0.25 === 0
-                update_till = Till.all.find_by(value: p)
-                payment.each do |p|
-                    update_till.quantity += 1
-                    update_till.save
-                end 
+#         while payment do
+#             change = total_paid - drink.price
+#             if total_paid > 0 && total_paid >= drink.price && change <= till_total && change % 0.25 === 0
+#                 update_till = Till.all.find_by(value: p)
+#                 payment.each do |p|
+#                     update_till.quantity += 1
+#                     update_till.save
+#                 end 
 
-                new_purchase = Purchase.create(drink_id: drink.id, user_id: current_user.id, total: drink.price)
-                new_purchase.make_change(change, till_coins)
+#                 new_purchase = Purchase.create(drink_id: drink.id, user_id: current_user.id, total: drink.price)
+#                 new_purchase.make_change(change, till_coins)
 
-                drink.quantity -= 1
-                drink.save
+#                 drink.quantity -= 1
+#                 drink.save
 
-                puts "Thank you for your purchase! Here is your #{drink.name} and your change of $#{change}0!"
-                payment = nil
-            else 
-                payment = prompt.multi_select("Hmmm seems like you entered in the incorrect amount or there isn't enough change! That will be $#{drink.price}. Please enter your desired payment amount! Note you can press SPACE to select multiple payments.", wallet_coins, required: true)
+#                 puts "Thank you for your purchase! Here is your #{drink.name} and your change of $#{change}0!"
+#                 payment = nil
+#             else 
+#                 payment = prompt.multi_select("Hmmm seems like you entered in the incorrect amount or there isn't enough change! That will be $#{drink.price}. Please enter your desired payment amount! Note you can press SPACE to select multiple payments.", wallet_coins, required: true)
 
-                total_paid = payment.sum().to_f
-            end   
-        end 
-    end
+#                 total_paid = payment.sum().to_f
+#             end   
+#         end 
+#     end
 
-    drink_menu === 'Exit' || login === 'Exit' ? exit : nil
+#     drink_menu === 'Exit' || login === 'Exit' ? exit : nil
