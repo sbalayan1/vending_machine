@@ -2,7 +2,6 @@ require 'pry'
 
 class VendingMachine
     # attr_accessor :drink_menu, :till
-
     def initialize
         @drink_menu =  {
             CocaCola: {price: 1, quantity: 10}, 
@@ -26,14 +25,24 @@ class VendingMachine
 
     # Takes a drink name as an input and returns the drink's price
     def get_drink_price name
-        # binding.pry
-        # drink_names = @drink_menu.keys
-        # puts "Select a drink from the list below #{drink_names}"
-        # user_input = gets.chomp
-        
-        if name.class == String
-            name = name.to_sym
-        end 
+        name = name.to_sym
         @drink_menu[name][:price]
+    end
+
+    # takes drink name as an input and returns the drink's quantity
+    def check_drink_stock name
     end 
+
+    # takes a coin as an input and return's the coins quantity
+    def check_coin_stock coin
+    end 
+
+    # purchase a drink
+    def purchase_drink
+        # Should check to see if the drink is in stock
+        # Should reduce the number of drinks in the machine/menu
+        # Should adjust till based on payment and change
+    end
+
+
 end 
