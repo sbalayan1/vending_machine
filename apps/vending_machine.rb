@@ -1,5 +1,4 @@
 require 'pry'
-
 class VendingMachine
     # attr_accessor :drink_menu, :till
     def initialize
@@ -46,3 +45,6 @@ class VendingMachine
 
 
 end 
+
+vm = VendingMachine.new
+vm.get_drink_menu
